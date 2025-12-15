@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LivPure | Premium Water Purifiers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary-blue: #00a8e8;
+            --deep-blue: #0066cc;
+            --aqua: #4ecdc4;
+            --light-bg: #f0f9ff;
+        }
+        
+        /* Custom animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes waterWave {
+            0% { transform: translateX(0) translateY(0); }
+            50% { transform: translateX(20px) translateY(-10px); }
+            100% { transform: translateX(0) translateY(0); }
+        }
+        
+        @keyframes cartBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        .animate-float {
+            animation: float 5s ease-in-out infinite;
+        }
+        
+        .animate-shimmer {
+            background: linear-gradient(90deg, #f0f9ff 0%, #e6f7ff 25%, #f0f9ff 50%);
+            background-size: 200% auto;
+            animation: shimmer 3s infinite linear;
+        }
+        
+        .animate-pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        .animate-slide-in {
+            animation: slideIn 0.8s ease-out forwards;
+        }
+        
+        .animate-water-wave {
+            animation: waterWave 8s ease-in-out infinite;
+        }
+        
+        .animate-cart-bounce {
+            animation: cartBounce 0.5s ease-in-out;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary-blue), var(--aqua));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .water-drop {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .water-drop::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .water-drop:hover::after {
+            opacity: 1;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-blue);
+            border-radius: 4px;
+        }
+        
+        /* 3D Card flip */
+        .flip-card {
+            perspective: 1000px;
+        }
+        
+        .flip-card-inner {
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-card-front, .flip-card-back {
+            backface-visibility: hidden;
+        }
+        
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+        
+        /* Page transitions */
+        .page {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .page.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        /* Cart styles */
+        .cart-item {
+            transition: all 0.3s ease;
+        }
+        
+        .cart-item:hover {
+            transform: translateX(5px);
+            background-color: #f8fafc;
+        }
+        
+        /* Ripple effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+        }
+        
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #3498db;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="glass-effect fixed top-0 w-full z-50 py-4 px-6 md:px-12">
+        <div class="flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center space-x-2 cursor-pointer" onclick="switchPage('home')">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 flex items-center justify-center animate-pulse-glow">
+                    <i class="fas fa-tint text-white"></i>
+                </div>
+                <h1 class="text-2xl font-bold gradient-text">Liv<span class="text-blue-700">Pure</span></h1>
+            </div>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-8">
+                <a onclick="switchPage('home')" class="text-gray-700 hover:text-blue-600 font-medium transition-all duration-300 hover:scale-105 cursor-pointer">Home</a>
+                <a onclick="switchPage('products')" class="text-gray-700 hover:text-blue-600 font-medium transition-all duration-300 hover:scale-105 cursor-pointer">Products</a>
+                <a onclick="switchPage('technology')" class="text-gray-700 hover:text-blue-600 font-medium transition-all duration-300 hover:scale-105 cursor-pointer">Technology</a>
+                <a onclick="switchPage('cart')" class="text-gray-700 hover:text-blue-600 font-medium transition-all duration-300 hover:scale-105 cursor-pointer">
+                    Cart <span id="cartCount" class="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center ml-1 inline-block">0</span>
+                </a>
+            </div>
+            
+            <!-- CTA & Mobile Menu Button -->
+            <div class="flex items-center space-x-4">
+                <button onclick="switchPage('products')" class="hidden md:block px-6 py-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                    Shop Now
+                </button>
+                <button id="menuBtn" class="md:hidden text-2xl text-blue-600">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="md:hidden mt-4 hidden glass-effect rounded-xl p-6 animate-slide-in">
+            <div class="flex flex-col space-y-4">
+                <a onclick="switchPage('home')" class="text-gray-700 hover:text-blue-600 font-medium py-2 cursor-pointer">Home</a>
+                <a onclick="switchPage('products')" class="text-gray-700 hover:text-blue-600 font-medium py-2 cursor-pointer">Products</a>
+                <a onclick="switchPage('technology')" class="text-gray-700 hover:text-blue-600 font-medium py-2 cursor-pointer">Technology</a>
+                <a onclick="switchPage('cart')" class="text-gray-700 hover:text-blue-600 font-medium py-2 cursor-pointer">
+                    Cart <span id="mobileCartCount" class="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center ml-1 inline-block">0</span>
+                </a>
+                <button onclick="switchPage('products')" class="px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-semibold mt-4">
+                    Shop Now
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <!-- Hero Section -->
+        <section class="pt-24 md:pt-32 px-6 md:px-12 overflow-hidden">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row items-center">
+                    <!-- Hero Text -->
+                    <div class="md:w-1/2 mb-12 md:mb-0">
+                        <div class="inline-block px-4 py-2 rounded-full bg-blue-100 text-blue-600 font-medium mb-6 animate-shimmer">
+                            <span class="flex items-center">
+                                <i class="fas fa-star mr-2"></i>
+                                India's Most Trusted Water Purifier
+                            </span>
+                        </div>
+                        <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                            Pure Water. 
+                            <span class="gradient-text">Healthy Life.</span>
+                        </h1>
+                        <p class="text-gray-600 text-lg mb-8">
+                            Experience the future of water purification with LivPure's advanced technology. 
+                            Get 100% RO purified water with essential minerals retained for your health.
+                        </p>
+                        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
+                            <button onclick="switchPage('products')" class="px-8 py-4 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 flex items-center justify-center ripple-btn">
+                                <span>Explore Products</span>
+                                <i class="fas fa-arrow-right ml-3"></i>
+                            </button>
+                            <button onclick="playDemoVideo()" class="px-8 py-4 rounded-full border-2 border-blue-500 text-blue-600 font-semibold text-lg hover:bg-blue-50 transition-all duration-300 flex items-center justify-center ripple-btn">
+                                <i class="fas fa-play-circle mr-3 text-xl"></i>
+                                <span>Watch Demo</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Stats -->
+                        <div class="flex mt-12 space-x-8">
+                            <div>
+                                <h3 class="text-3xl font-bold text-blue-600" id="happyFamilies">0</h3>
+                                <p class="text-gray-600">Happy Families</p>
+                            </div>
+                            <div>
+                                <h3 class="text-3xl font-bold text-cyan-500" id="citiesCovered">0</h3>
+                                <p class="text-gray-600">Cities Covered</p>
+                            </div>
+                            <div>
+                                <h3 class="text-3xl font-bold text-blue-400">24/7</h3>
+                                <p class="text-gray-600">Service Support</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hero Visual -->
+                    <div class="md:w-1/2 relative">
+                        <div class="relative z-10 animate-float">
+                            <div class="w-80 h-80 md:w-96 md:h-96 rounded-full bg-gradient-to-br from-blue-400 to-cyan-300 mx-auto flex items-center justify-center shadow-2xl">
+                                <!-- Water Purifier Image Placeholder -->
+                                <div class="w-64 h-64 rounded-3xl bg-white bg-opacity-30 flex items-center justify-center">
+                                    <div class="text-center">
+                                        <i class="fas fa-tint text-white text-8xl mb-4"></i>
+                                        <h3 class="text-white text-2xl font-bold">LivPure Pro</h3>
+                                        <p class="text-white">Advanced RO + UV + UF</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Floating elements -->
+                            <div class="absolute -top-4 -right-4 w-24 h-24 rounded-full bg-blue-200 bg-opacity-50 animate-water-wave"></div>
+                            <div class="absolute -bottom-4 -left-4 w-32 h-32 rounded-full bg-cyan-200 bg-opacity-50 animate-water-wave" style="animation-delay: 1s;"></div>
+                            <div class="absolute top-1/2 -right-10 w-20 h-20 rounded-full bg-blue-100 bg-opacity-60 animate-water-wave" style="animation-delay: 2s;"></div>
+                        </div>
+                        
+                        <!-- Animated background circles -->
+                        <div class="absolute top-0 left-0 w-full h-full -z-10">
+                            <div class="absolute top-10 left-10 w-64 h-64 rounded-full border-2 border-blue-200 border-opacity-30"></div>
+                            <div class="absolute bottom-10 right-10 w-80 h-80 rounded-full border-2 border-cyan-200 border-opacity-30"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Products -->
+        <section class="py-20 px-6 md:px-12 bg-gradient-to-b from-white to-blue-50">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                        Featured <span class="gradient-text">Products</span>
+                    </h2>
+                    <p class="text-gray-600 text-lg max-w-3xl mx-auto">
+                        Best selling water purifiers loved by our customers
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="featuredProducts">
+                    <!-- Featured products will be loaded here via JavaScript -->
+                </div>
+                
+                <div class="text-center mt-12">
+                    <button onclick="switchPage('products')" class="px-8 py-4 rounded-full border-2 border-blue-600 text-blue-600 font-semibold text-lg hover:bg-blue-50 transition-all duration-300 ripple-btn">
+                        View All Products <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Products Page -->
+    <div id="products" class="page">
+        <section class="pt-24 md:pt-32 px-6 md:px-12 pb-20">
+            <div class="max-w-7xl mx-auto">
+                <!-- Products Header -->
+                <div class="mb-12">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                        Our <span class="gradient-text">Products</span>
+                    </h1>
+                    <p class="text-gray-600 text-lg">
+                        Choose from our wide range of water purifiers for every need and budget
+                    </p>
+                    
+                    <!-- Filter Tabs -->
+                    <div class="flex flex-wrap gap-4 mt-8">
+                        <button class="filter-btn active px-6 py-3 rounded-full bg-blue-600 text-white font-medium" data-filter="all">
+                            All Products
+                        </button>
+                        <button class="filter-btn px-6 py-3 rounded-full bg-gray-200 text-gray-700 font-medium hover:bg-gray-300" data-filter="ro">
+                            RO Purifiers
+                        </button>
+                        <button class="filter-btn px-6 py-3 rounded-full bg-gray-200 text-gray-700 font-medium hover:bg-gray-300" data-filter="uv">
+                            UV Purifiers
+                        </button>
+                        <button class="filter-btn px-6 py-3 rounded-full bg-gray-200 text-gray-700 font-medium hover:bg-gray-300" data-filter="alkaline">
+                            Alkaline
+                        </button>
+                        <button class="filter-btn px-6 py-3 rounded-full bg-gray-200 text-gray-700 font-medium hover:bg-gray-300" data-filter="smart">
+                            Smart IoT
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Products Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="productsGrid">
+                    <!-- Products will be loaded here via JavaScript -->
+                </div>
+                
+                <!-- Loading Indicator -->
+                <div id="loadingIndicator" class="text-center py-12">
+                    <div class="spinner mx-auto mb-4"></div>
+                    <p class="text-gray-600">Loading products...</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Product Detail Page -->
+    <div id="productDetail" class="page">
+        <section class="pt-24 md:pt-32 px-6 md:px-12 pb-20">
+            <div class="max-w-7xl mx-auto">
+                <!-- Back Button -->
+                <button onclick="switchPage('products')" class="flex items-center text-blue-600 font-medium mb-8 hover:text-blue-800 transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Products
+                </button>
+                
+                <!-- Product Detail Content -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Product Images -->
+                    <div>
+                        <div class="rounded-3xl bg-gradient-to-br from-blue-50 to-cyan-50 p-8 mb-6">
+                            <div class="w-full h-64 md:h-80 flex items-center justify-center">
+                                <i class="fas fa-tint text-blue-400 text-9xl" id="productIcon"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="flex space-x-4">
+                            <div class="w-20 h-20 rounded-xl bg-blue-100 flex items-center justify-center cursor-pointer border-2 border-blue-300">
+                                <i class="fas fa-filter text-blue-600 text-2xl"></i>
+                            </div>
+                            <div class="w-20 h-20 rounded-xl bg-gray-100 flex items-center justify-center cursor-pointer hover:bg-gray-200">
+                                <i class="fas fa-cogs text-gray-600 text-2xl"></i>
+                            </div>
+                            <div class="w-20 h-20 rounded-xl bg-gray-100 flex items-center justify-center cursor-pointer hover:bg-gray-200">
+                                <i class="fas fa-chart-bar text-gray-600 text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product Info -->
+                    <div>
+                        <div class="mb-6">
+                            <span class="px-4 py-2 rounded-full bg-blue-100 text-blue-600 font-medium" id="productCategory">RO Purifier</span>
+                            <h1 class="text-4xl font-bold text-gray-900 mt-4 mb-2" id="productName">LivPure Envision</h1>
+                            <p class="text-gray-600 text-lg" id="productDescription">Advanced RO + UV + UF + Mineral Guard Technology</p>
+                        </div>
+                        
+                        <!-- Rating -->
+                        <div class="flex items-center mb-6">
+                            <div class="flex text-yellow-400 mr-4">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-gray-600" id="productRating">4.5 (1,234 Reviews)</span>
+                        </div>
+                        
+                        <!-- Price -->
+                        <div class="mb-8">
+                            <div class="flex items-center">
+                                <span class="text-5xl font-bold text-blue-600" id="productPrice">₹18,999</span>
+                                <span class="text-2xl text-gray-500 line-through ml-4" id="productOldPrice">₹22,999</span>
+                                <span class="px-3 py-1 rounded-full bg-green-100 text-green-600 font-medium ml-4" id="productDiscount">17% OFF</span>
+                            </div>
+                            <p class="text-gray-600 mt-2">Inclusive of all taxes | EMI options available</p>
+                        </div>
+                        
+                        <!-- Features -->
+                        <div class="mb-8">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">Key Features</h3>
+                            <ul class="space-y-3" id="productFeatures">
+                                <!-- Features will be populated by JavaScript -->
+                            </ul>
+                        </div>
+                        
+                        <!-- Quantity & Add to Cart -->
+                        <div class="mb-8">
+                            <div class="flex items-center mb-6">
+                                <span class="text-gray-700 font-medium mr-4">Quantity:</span>
+                                <div class="flex items-center">
+                                    <button onclick="updateQuantity(-1)" class="w-10 h-10 rounded-l-lg bg-gray-200 flex items-center justify-center hover:bg-gray-300">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="number" id="quantity" value="1" min="1" max="10" class="w-16 h-10 bg-gray-100 text-center font-medium">
+                                    <button onclick="updateQuantity(1)" class="w-10 h-10 rounded-r-lg bg-gray-200 flex items-center justify-center hover:bg-gray-300">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <button onclick="addToCart(currentProduct)" class="px-8 py-4 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 flex-1 flex items-center justify-center ripple-btn">
+                                    <i class="fas fa-shopping-cart mr-3"></i>
+                                    Add to Cart
+                                </button>
+                                <button onclick="buyNow()" class="px-8 py-4 rounded-full border-2 border-blue-600 text-blue-600 font-semibold text-lg hover:bg-blue-50 transition-all duration-300 flex-1 ripple-btn">
+                                    Buy Now
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Delivery Info -->
+                        <div class="p-6 rounded-2xl bg-blue-50">
+                            <div class="flex items-start">
+                                <i class="fas fa-shipping-fast text-blue-600 text-2xl mr-4 mt-1"></i>
+                                <div>
+                                    <h4 class="font-bold text-gray-900 mb-2">Free Delivery & Installation</h4>
+                                    <p class="text-gray-600">Get free delivery and installation within 48 hours. Service available in all major cities.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Technology Page -->
+    <div id="technology" class="page">
+        <section class="pt-24 md:pt-32 px-6 md:px-12 pb-20">
+            <div class="max-w-7xl mx-auto">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                    Our <span class="gradient-text">Technology</span>
+                </h1>
+                <p class="text-gray-600 text-lg mb-12 max-w-3xl">
+                    LivPure uses advanced purification technology to deliver 100% pure water while retaining essential minerals
+                </p>
+                
+                <!-- Technology Visualization -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
+                    <div class="relative h-96">
+                        <div class="w-full h-full rounded-3xl bg-gradient-to-b from-blue-50 to-cyan-50 flex items-center justify-center">
+                            <div class="relative w-64 h-64">
+                                <div class="absolute inset-0 rounded-full border-4 border-blue-200 animate-spin" style="animation-duration: 20s;"></div>
+                                <div class="absolute inset-10 rounded-full border-4 border-cyan-300 animate-spin" style="animation-duration: 15s; animation-direction: reverse;"></div>
+                                <div class="absolute inset-20 rounded-full border-4 border-blue-400 animate-spin" style="animation-duration: 10s;"></div>
+                                <div class="absolute inset-32 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 flex items-center justify-center">
+                                    <i class="fas fa-tint text-white text-4xl"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900 mb-8">7-Stage Purification Process</h2>
+                        <div class="space-y-6" id="techSteps">
+                            <!-- Technology steps will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Comparison Chart -->
+                <div class="mb-20">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">LivPure vs Conventional RO</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full bg-white rounded-2xl shadow-lg overflow-hidden">
+                            <thead class="bg-gradient-to-r from-blue-600 to-cyan-500 text-white">
+                                <tr>
+                                    <th class="py-4 px-6 text-left">Feature</th>
+                                    <th class="py-4 px-6 text-left">LivPure</th>
+                                    <th class="py-4 px-6 text-left">Conventional RO</th>
+                                </tr>
+                            </thead>
+                            <tbody id="comparisonTable">
+                                <!-- Comparison data will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Cart Page -->
+    <div id="cart" class="page">
+        <section class="pt-24 md:pt-32 px-6 md:px-12 pb-20 min-h-screen">
+            <div class="max-w-7xl mx-auto">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-8">
+                    Your <span class="gradient-text">Shopping Cart</span>
+                </h1>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Cart Items -->
+                    <div class="lg:col-span-2">
+                        <div class="bg-white rounded-2xl shadow-lg p-6">
+                            <div class="flex justify-between items-center mb-6">
+                                <h2 class="text-2xl font-bold text-gray-900">Cart Items (<span id="cartItemCount">0</span>)</h2>
+                                <button onclick="clearCart()" class="text-red-600 hover:text-red-800 font-medium">
+                                    <i class="fas fa-trash-alt mr-2"></i> Clear Cart
+                                </button>
+                            </div>
+                            
+                            <div id="cartItemsContainer">
+                                <!-- Cart items will be loaded here -->
+                                <div class="text-center py-12" id="emptyCartMessage">
+                                    <i class="fas fa-shopping-cart text-gray-300 text-6xl mb-4"></i>
+                                    <h3 class="text-xl font-bold text-gray-700 mb-2">Your cart is empty</h3>
+                                    <p class="text-gray-600 mb-6">Add some products to get started!</p>
+                                    <button onclick="switchPage('products')" class="px-6 py-3 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors">
+                                        Browse Products
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Order Summary -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-32">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-6">Order Summary</h2>
+                            
+                            <div class="space-y-4 mb-6">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Subtotal</span>
+                                    <span class="font-medium" id="cartSubtotal">₹0</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Delivery & Installation</span>
+                                    <span class="font-medium text-green-600">FREE</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Tax (18% GST)</span>
+                                    <span class="font-medium" id="cartTax">₹0</span>
+                                </div>
+                                <div class="border-t pt-4">
+                                    <div class="flex justify-between text-lg font-bold">
+                                        <span>Total</span>
+                                        <span id="cartTotal">₹0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button onclick="checkout()" id="checkoutBtn" class="w-full py-4 rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold text-lg shadow-xl hover:shadow-2xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                Proceed to Checkout
+                            </button>
+                            
+                            <div class="mt-6 p-4 bg-blue-50 rounded-xl">
+                                <div class="flex items-start">
+                                    <i class="fas fa-shield-alt text-blue-600 text-xl mr-3 mt-1"></i>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 mb-1">Safe & Secure Checkout</h4>
+                                        <p class="text-sm text-gray-600">Your payment information is encrypted and secure</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center space-x-2 mb-6 cursor-pointer" onclick="switchPage('home')">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 flex items-center justify-center">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold">LivPure</h2>
+                    </div>
+                    <p class="text-gray-400 mb-6">
+                        India's most trusted water purifier brand, delivering pure and healthy water to millions of homes.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-600 transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-400 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-pink-600 transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-blue-700 transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Quick Links</h3>
+                    <ul class="space-y-4">
+                        <li><a onclick="switchPage('home')" class="text-gray-400 hover:text-white transition-colors cursor-pointer">Home</a></li>
+                        <li><a onclick="switchPage('products')" class="text-gray-400 hover:text-white transition-colors cursor-pointer">Products</a></li>
+                        <li><a onclick="switchPage('technology')" class="text-gray-400 hover:text-white transition-colors cursor-pointer">Technology</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Products -->
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Products</h3>
+                    <ul class="space-y-4">
+                        <li><a onclick="switchPage('products')" class="text-gray-400 hover:text-white transition-colors cursor-pointer">RO Water Purifiers</a></li>
+                        <li><a onclick="switchPage('products')" class="text-gray-400 hover:text-white transition-colors cursor-pointer">UV Water Purifiers</a></li>
+                        <li><a onclick="switchPage('products')" class="text-gray-400 hover:text-white transition-colors cursor-pointer">Alkaline Water Purifiers</a></li>
+                        <li><a onclick="switchPage('products')" class="text-gray-400 hover:text-white transition-colors cursor-pointer">Smart IoT Purifiers</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Newsletter -->
+                <div>
+                    <h3 class="text-xl font-bold mb-6">Stay Updated</h3>
+                    <p class="text-gray-400 mb-6">Subscribe to our newsletter for the latest updates and offers.</p>
+                    <div class="flex">
+                        <input type="email" id="newsletterEmail" placeholder="Your email" class="px-4 py-3 rounded-l-lg bg-gray-800 text-white flex-grow focus:outline-none">
+                        <button onclick="subscribeNewsletter()" class="px-6 py-3 rounded-r-lg bg-gradient-to-r from-blue-500 to-cyan-400 font-semibold hover:opacity-90 transition-opacity">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
+                <p>&copy; 2023 LivPure. All rights reserved. | Designed with <i class="fas fa-heart text-red-500 mx-1"></i> for pure water</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Data and State Management
+        let currentProduct = null;
+        let cart = JSON.parse(localStorage.getItem('livpureCart')) || [];
+        
+        // Product Data
+        const products = [
+            {
+                id: 1,
+                name: "LivPure Envision",
+                category: "ro",
+                description: "Advanced RO + UV + UF + Mineral Guard Technology",
+                price: 18999,
+                oldPrice: 22999,
+                discount: 17,
+                rating: 4.5,
+                reviews: 1234,
+                features: [
+                    "7 Stage Purification",
+                    "Smart TDS Controller",
+                    "UV LED Protection",
+                    "8L Storage Capacity",
+                    "Mineral Guard Technology"
+                ],
+                icon: "fa-filter"
+            },
+            {
+                id: 2,
+                name: "LivPure Eco",
+                category: "ro",
+                description: "RO + UV + UF with Energy Saving Mode",
+                price: 14499,
+                oldPrice: 17999,
+                discount: 19,
+                rating: 4.3,
+                reviews: 856,
+                features: [
+                    "Eco Mode Technology",
+                    "6 Stage Purification",
+                    "Low Water Wastage",
+                    "5L Storage Capacity",
+                    "Energy Efficient"
+                ],
+                icon: "fa-leaf"
+            },
+            {
+                id: 3,
+                name: "LivPure Nova",
+                category: "smart",
+                description: "RO + UV + UF with Smart Display & IoT",
+                price: 24999,
+                oldPrice: 29999,
+                discount: 17,
+                rating: 4.7,
+                reviews: 567,
+                features: [
+                    "Smart IoT Enabled",
+                    "Touch Display Panel",
+                    "8 Stage Purification",
+                    "10L Storage Capacity",
+                    "Mobile App Control"
+                ],
+                icon: "fa-bolt"
+            },
+            {
+                id: 4,
+                name: "LivPure Shield",
+                category: "uv",
+                description: "UV + UF Purification with 99.99% Virus Removal",
+                price: 11999,
+                oldPrice: 14999,
+                discount: 20,
+                rating: 4.2,
+                reviews: 932,
+                features: [
+                    "99.99% Virus Removal",
+                    "5 Stage Purification",
+                    "No Electricity Required",
+                    "6L Storage Capacity",
+                    "Compact Design"
+                ],
+                icon: "fa-shield-alt"
+            },
+            {
+                id: 5,
+                name: "LivPure Alkaline Pro",
+                category: "alkaline",
+                description: "RO + Alkaline with pH Balance Technology",
+                price: 21999,
+                oldPrice: 25999,
+                discount: 15,
+                rating: 4.6,
+                reviews: 421,
+                features: [
+                    "pH Balance Technology",
+                    "Alkaline Water Output",
+                    "7 Stage Purification",
+                    "8L Storage Capacity",
+                    "Mineral Enrichment"
+                ],
+                icon: "fa-flask"
+            },
+            {
+                id: 6,
+                name: "LivPure Compact",
+                category: "ro",
+                description: "Compact RO System for Small Spaces",
+                price: 12999,
+                oldPrice: 15999,
+                discount: 19,
+                rating: 4.1,
+                reviews: 723,
+                features: [
+                    "Compact Design",
+                    "5 Stage Purification",
+                    "Wall Mountable",
+                    "4L Storage Capacity",
+                    "Easy Installation"
+                ],
+                icon: "fa-compress-alt"
+            }
+        ];
+
+        // Technology Data
+        const techSteps = [
+            { stage: 1, name: "Sediment Filter", description: "Removes dust, sand, and rust particles" },
+            { stage: 2, name: "Carbon Filter", description: "Removes chlorine and organic compounds" },
+            { stage: 3, name: "RO Membrane", description: "Removes dissolved salts and heavy metals" },
+            { stage: 4, name: "UV Chamber", description: "Kills 99.99% bacteria and viruses" },
+            { stage: 5, name: "UF Filter", description: "Removes remaining microorganisms" },
+            { stage: 6, name: "Mineral Guard", description: "Adds essential minerals back to water" },
+            { stage: 7, name: "Alkaline Cartridge", description: "Balances pH level of water" }
+        ];
+
+        const comparisonData = [
+            { feature: "Mineral Retention", livpure: "Yes", conventional: "No" },
+            { feature: "Water Wastage", livpure: "Less than 20%", conventional: "Up to 80%" },
+            { feature: "Electricity Usage", livpure: "Energy Saving Mode", conventional: "High Consumption" },
+            { feature: "Smart Features", livpure: "IoT Enabled", conventional: "Not Available" },
+            { feature: "Installation", livpure: "Free", conventional: "Charges Apply" },
+            { feature: "Warranty", livpure: "5 Years", conventional: "1-2 Years" }
+        ];
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load initial data
+            loadFeaturedProducts();
+            loadAllProducts();
+            loadTechnologyData();
+            updateCartCount();
+            updateCartDisplay();
+            
+            // Initialize counters
+            animateCounter('happyFamilies', 10000, 0, 2000);
+            animateCounter('citiesCovered', 500, 0, 1500);
+            
+            // Add ripple effect to buttons
+            document.querySelectorAll('.ripple-btn').forEach(button => {
+                button.addEventListener('click', createRipple);
+            });
+            
+            // Filter functionality
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(btn => {
+                        btn.classList.remove('active', 'bg-blue-600', 'text-white');
+                        btn.classList.add('bg-gray-200', 'text-gray-700');
+                    });
+                    
+                    this.classList.remove('bg-gray-200', 'text-gray-700');
+                    this.classList.add('active', 'bg-blue-600', 'text-white');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    filterProducts(filter);
+                });
+            });
+            
+            // Mobile menu toggle
+            document.getElementById('menuBtn').addEventListener('click', function() {
+                const mobileMenu = document.getElementById('mobileMenu');
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                const menuBtn = document.getElementById('menuBtn');
+                const mobileMenu = document.getElementById('mobileMenu');
+                
+                if (!menuBtn.contains(event.target) && !mobileMenu.contains(event.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Page Navigation
+        function switchPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Close mobile menu
+            document.getElementById('mobileMenu').classList.add('hidden');
+            
+            // Update page title
+            const titles = {
+                'home': 'LivPure | Premium Water Purifiers',
+                'products': 'Products | LivPure',
+                'productDetail': 'Product Details | LivPure',
+                'technology': 'Technology | LivPure',
+                'cart': 'Shopping Cart | LivPure'
+            };
+            
+            if (titles[pageId]) {
+                document.title = titles[pageId];
+            }
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Product Functions
+        function loadFeaturedProducts() {
+            const container = document.getElementById('featuredProducts');
+            const featured = products.slice(0, 3);
+            
+            container.innerHTML = featured.map(product => `
+                <div class="flip-card water-drop h-96">
+                    <div class="flip-card-inner h-full rounded-3xl">
+                        <div class="flip-card-front absolute w-full h-full rounded-3xl bg-white shadow-xl p-8 flex flex-col justify-between">
+                            <div>
+                                <div class="w-16 h-16 rounded-2xl bg-blue-100 flex items-center justify-center mb-6">
+                                    <i class="fas ${product.icon} text-blue-600 text-2xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-4">${product.name}</h3>
+                                <p class="text-gray-600">${product.description}</p>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-3xl font-bold text-blue-600">₹${product.price.toLocaleString()}</span>
+                                    <p class="text-gray-500 line-through">₹${product.oldPrice.toLocaleString()}</p>
+                                </div>
+                                <div onclick="viewProductDetail(${product.id})" class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center cursor-pointer hover:bg-blue-200">
+                                    <i class="fas fa-arrow-right text-blue-600"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flip-card-back absolute w-full h-full rounded-3xl bg-gradient-to-br from-blue-600 to-cyan-500 p-8 text-white flex flex-col justify-center">
+                            <h3 class="text-2xl font-bold mb-4">Key Features</h3>
+                            <ul class="space-y-3 mb-6">
+                                ${product.features.slice(0, 3).map(feature => `
+                                    <li class="flex items-center">
+                                        <i class="fas fa-check-circle mr-3"></i>
+                                        <span>${feature}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                            <button onclick="viewProductDetail(${product.id})" class="px-6 py-3 rounded-full bg-white text-blue-600 font-semibold mt-4">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadAllProducts() {
+            const container = document.getElementById('productsGrid');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            
+            // Simulate loading delay
+            setTimeout(() => {
+                container.innerHTML = products.map(product => `
+                    <div class="product-card bg-white rounded-3xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2" data-category="${product.category}">
+                        <div class="p-8">
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-16 h-16 rounded-2xl bg-blue-100 flex items-center justify-center">
+                                    <i class="fas ${product.icon} text-blue-600 text-2xl"></i>
+                                </div>
+                                <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-600 font-medium">${product.category.toUpperCase()}</span>
+                            </div>
+                            
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">${product.name}</h3>
+                            <p class="text-gray-600 mb-6">${product.description}</p>
+                            
+                            <div class="flex items-center mb-6">
+                                <div class="flex text-yellow-400 mr-4">
+                                    ${getStarRating(product.rating)}
+                                </div>
+                                <span class="text-gray-600">${product.rating} (${product.reviews})</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-3xl font-bold text-blue-600">₹${product.price.toLocaleString()}</span>
+                                    <p class="text-gray-500 line-through">₹${product.oldPrice.toLocaleString()}</p>
+                                </div>
+                                <button onclick="viewProductDetail(${product.id})" class="px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-semibold hover:shadow-lg transition-all">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                loadingIndicator.style.display = 'none';
+            }, 1000);
+        }
+
+        function filterProducts(filter) {
+            const productCards = document.querySelectorAll('.product-card');
+            
+            productCards.forEach(card => {
+                if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                    card.style.display = 'block';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 10);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        }
+
+        function viewProductDetail(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            currentProduct = product;
+            
+            // Update product detail page
+            document.getElementById('productName').textContent = product.name;
+            document.getElementById('productDescription').textContent = product.description;
+            document.getElementById('productPrice').textContent = `₹${product.price.toLocaleString()}`;
+            document.getElementById('productOldPrice').textContent = `₹${product.oldPrice.toLocaleString()}`;
+            document.getElementById('productDiscount').textContent = `${product.discount}% OFF`;
+            document.getElementById('productRating').textContent = `${product.rating} (${product.reviews.toLocaleString()} Reviews)`;
+            document.getElementById('productIcon').className = `fas ${product.icon} text-blue-400 text-9xl`;
+            
+            // Update category
+            const categoryNames = {
+                'ro': 'RO Purifier',
+                'uv': 'UV Purifier',
+                'alkaline': 'Alkaline Purifier',
+                'smart': 'Smart IoT Purifier'
+            };
+            document.getElementById('productCategory').textContent = categoryNames[product.category] || 'Water Purifier';
+            
+            // Update features
+            const featuresList = document.getElementById('productFeatures');
+            featuresList.innerHTML = product.features.map(feature => `
+                <li class="flex items-center">
+                    <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                    <span>${feature}</span>
+                </li>
+            `).join('');
+            
+            // Switch to product detail page
+            switchPage('productDetail');
+        }
+
+        // Cart Functions
+        function addToCart(product) {
+            if (!product) return;
+            
+            const existingItem = cart.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                existingItem.quantity += parseInt(document.getElementById('quantity').value);
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: parseInt(document.getElementById('quantity').value)
+                });
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('livpureCart', JSON.stringify(cart));
+            
+            // Update UI
+            updateCartCount();
+            updateCartDisplay();
+            
+            // Show notification
+            showNotification(`${product.name} added to cart!`);
+            
+            // Animate cart icon
+            const cartIcon = document.querySelector('nav .fa-shopping-cart');
+            if (cartIcon) {
+                cartIcon.parentElement.classList.add('animate-cart-bounce');
+                setTimeout(() => {
+                    cartIcon.parentElement.classList.remove('animate-cart-bounce');
+                }, 500);
+            }
+        }
+
+        function updateCartCount() {
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cartCount').textContent = totalItems;
+            document.getElementById('mobileCartCount').textContent = totalItems;
+            document.getElementById('cartItemCount').textContent = totalItems;
+        }
+
+        function updateCartDisplay() {
+            const container = document.getElementById('cartItemsContainer');
+            const emptyCartMessage = document.getElementById('emptyCartMessage');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12" id="emptyCartMessage">
+                        <i class="fas fa-shopping-cart text-gray-300 text-6xl mb-4"></i>
+                        <h3 class="text-xl font-bold text-gray-700 mb-2">Your cart is empty</h3>
+                        <p class="text-gray-600 mb-6">Add some products to get started!</p>
+                        <button onclick="switchPage('products')" class="px-6 py-3 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors">
+                            Browse Products
+                        </button>
+                    </div>
+                `;
+                checkoutBtn.disabled = true;
+                updateCartSummary(0);
+                return;
+            }
+            
+            // Calculate totals
+            let subtotal = 0;
+            
+            container.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                return `
+                    <div class="cart-item flex items-center justify-between py-6 border-b border-gray-200">
+                        <div class="flex items-center">
+                            <div class="w-20 h-20 rounded-xl bg-blue-100 flex items-center justify-center mr-6">
+                                <i class="fas ${item.icon} text-blue-600 text-2xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-1">${item.name}</h4>
+                                <p class="text-gray-600 text-sm mb-2">${item.description}</p>
+                                <div class="flex items-center">
+                                    <button onclick="updateCartItemQuantity(${item.id}, -1)" class="w-8 h-8 rounded-l bg-gray-200 flex items-center justify-center">
+                                        <i class="fas fa-minus text-sm"></i>
+                                    </button>
+                                    <span class="w-12 h-8 bg-gray-100 flex items-center justify-center font-medium">${item.quantity}</span>
+                                    <button onclick="updateCartItemQuantity(${item.id}, 1)" class="w-8 h-8 rounded-r bg-gray-200 flex items-center justify-center">
+                                        <i class="fas fa-plus text-sm"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-right">
+                            <div class="font-bold text-gray-900 text-xl mb-1">₹${(item.price * item.quantity).toLocaleString()}</div>
+                            <button onclick="removeFromCart(${item.id})" class="text-red-600 hover:text-red-800 text-sm font-medium">
+                                <i class="fas fa-trash-alt mr-1"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            checkoutBtn.disabled = false;
+            updateCartSummary(subtotal);
+        }
+
+        function updateCartItemQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (!item) return;
+            
+            item.quantity += change;
+            
+            if (item.quantity < 1) {
+                cart = cart.filter(item => item.id !== productId);
+            }
+            
+            localStorage.setItem('livpureCart', JSON.stringify(cart));
+            updateCartCount();
+            updateCartDisplay();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('livpureCart', JSON.stringify(cart));
+            updateCartCount();
+            updateCartDisplay();
+            showNotification('Item removed from cart');
+        }
+
+        function clearCart() {
+            if (cart.length === 0) return;
+            
+            if (confirm('Are you sure you want to clear your cart?')) {
+                cart = [];
+                localStorage.setItem('livpureCart', JSON.stringify(cart));
+                updateCartCount();
+                updateCartDisplay();
+                showNotification('Cart cleared');
+            }
+        }
+
+        function updateCartSummary(subtotal) {
+            const tax = subtotal * 0.18;
+            const total = subtotal + tax;
+            
+            document.getElementById('cartSubtotal').textContent = `₹${subtotal.toLocaleString()}`;
+            document.getElementById('cartTax').textContent = `₹${tax.toLocaleString()}`;
+            document.getElementById('cartTotal').textContent = `₹${total.toLocaleString()}`;
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            // In a real app, this would redirect to checkout page
+            alert(`Proceeding to checkout with ${cart.length} items. Total: ${document.getElementById('cartTotal').textContent}`);
+            
+            // For demo, we'll just show a success message
+            showNotification('Order placed successfully! Thank you for your purchase.', 'success');
+            
+            // Clear cart after successful checkout
+            cart = [];
+            localStorage.setItem('livpureCart', JSON.stringify(cart));
+            updateCartCount();
+            updateCartDisplay();
+        }
+
+        // Technology Functions
+        function loadTechnologyData() {
+            const techContainer = document.getElementById('techSteps');
+            const comparisonContainer = document.getElementById('comparisonTable');
+            
+            techContainer.innerHTML = techSteps.map((step, index) => `
+                <div class="flex items-start">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-400 flex items-center justify-center text-white font-bold text-xl mr-6 flex-shrink-0">
+                        ${step.stage}
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">${step.name}</h4>
+                        <p class="text-gray-600">${step.description}</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            comparisonContainer.innerHTML = comparisonData.map(row => `
+                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                    <td class="py-4 px-6 font-medium">${row.feature}</td>
+                    <td class="py-4 px-6">
+                        <span class="px-3 py-1 rounded-full bg-green-100 text-green-600 font-medium">${row.livpure}</span>
+                    </td>
+                    <td class="py-4 px-6">
+                        <span class="px-3 py-1 rounded-full bg-red-100 text-red-600 font-medium">${row.conventional}</span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Utility Functions
+        function animateCounter(elementId, target, current, duration) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            const increment = target / (duration / 16); // 60fps
+            let currentValue = current;
+            
+            const timer = setInterval(() => {
+                currentValue += increment;
+                if (currentValue >= target) {
+                    currentValue = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(currentValue).toLocaleString();
+            }, 16);
+        }
+
+        function getStarRating(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars;
+        }
+
+        function showNotification(message, type = 'info') {
+            // Remove existing notification
+            const existingNotification = document.getElementById('customNotification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            // Create notification
+            const notification = document.createElement('div');
+            notification.id = 'customNotification';
+            notification.className = `fixed top-24 right-6 z-50 px-6 py-4 rounded-xl shadow-2xl transform transition-all duration-300 ${
+                type === 'success' ? 'bg-green-500 text-white' : 'bg-blue-500 text-white'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'} mr-3 text-xl"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        function createRipple(event) {
+            const button = event.currentTarget;
+            const circle = document.createElement("span");
+            const diameter = Math.max(button.clientWidth, button.clientHeight);
+            const radius = diameter / 2;
+            
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+            circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+            circle.classList.add("ripple");
+            
+            const ripple = button.getElementsByClassName("ripple")[0];
+            
+            if (ripple) {
+                ripple.remove();
+            }
+            
+            button.appendChild(circle);
+        }
+
+        function updateQuantity(change) {
+            const quantityInput = document.getElementById('quantity');
+            let currentQuantity = parseInt(quantityInput.value);
+            currentQuantity += change;
+            
+            if (currentQuantity < 1) currentQuantity = 1;
+            if (currentQuantity > 10) currentQuantity = 10;
+            
+            quantityInput.value = currentQuantity;
+        }
+
+        function buyNow() {
+            if (!currentProduct) return;
+            
+            addToCart(currentProduct);
+            switchPage('cart');
+        }
+
+        function playDemoVideo() {
+            // In a real app, this would play a video
+            showNotification('Playing product demonstration video');
+        }
+
+        function subscribeNewsletter() {
+            const emailInput = document.getElementById('newsletterEmail');
+            const email = emailInput.value.trim();
+            
+            if (!email) {
+                showNotification('Please enter your email address');
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                showNotification('Please enter a valid email address');
+                return;
+            }
+            
+            // Simulate subscription
+            emailInput.value = '';
+            showNotification('Thank you for subscribing to our newsletter!', 'success');
+        }
+
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+    </script>
+</body>
+</html>
